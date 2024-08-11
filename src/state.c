@@ -34,7 +34,7 @@ game_state_t *create_default_state() {
     game->board[i] = malloc(21 * sizeof(char));
   }
   strcpy(game->board[0], "####################");
-  game->board[17] = game->board[0];
+  strcpy(game->board[17], "####################");
   for (int i = 1; i < 17; i++) {
     strcpy(game->board[i], "#                  #");
   };
@@ -58,12 +58,21 @@ game_state_t *create_default_state() {
 /* Task 2 */
 void free_state(game_state_t *state) {
   // TODO: Implement this function.
+  free(state->snakes);
+  for(int i = 0; i < state->num_rows; i++) {
+    free(state->board[i]);
+  }
+  free(state->board);
+  free(state);
   return;
 }
 
 /* Task 3 */
 void print_board(game_state_t *state, FILE *fp) {
   // TODO: Implement this function.
+  for (int i = 0; i < state->num_rows; i++) {
+  fprintf(fp, "%s\n",state->board[i]);
+  }
   return;
 }
 
