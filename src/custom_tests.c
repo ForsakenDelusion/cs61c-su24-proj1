@@ -98,36 +98,251 @@ bool test_is_vowel() {
 
 bool test_is_tail() {
   // TODO: Implement this function.
+  char testcase_1 = 'w';
+  bool output_1 = is_tail(testcase_1);
+  if (!assert_true("output_1", output_1)) {
+    return false;
+  }
+
+  char testcase_2 = 'a';
+  bool output_2 = is_tail(testcase_2);
+  if (!assert_true("output_2", output_2)) {
+    return false;
+  }
+
+  char testcase_3 = 's';
+  bool output_3 = is_tail(testcase_3);
+  if (!assert_true("output_3", output_3)) {
+    return false;
+  }
+
+  char testcase_4 = 'd';
+  bool output_4 = is_tail(testcase_4);
+  if (!assert_true("output_4", output_4)) {
+    return false;
+  }
+
+  char testcase_5 = 'l';
+  bool output_5 = is_tail(testcase_5);
+  if (!assert_false("output_5", output_5)) {
+    return false;
+  }
+
+  char testcase_6 = '?';
+  bool output_6 = is_tail(testcase_6);
+  if (!assert_false("output_6", output_6)) {
+    return false;
+  }
+
+  char testcase_7 = '1';
+  bool output_7 = is_tail(testcase_7);
+  if (!assert_false("output_7", output_7)) {
+    return false;
+  }
+
+  printf("test_is_tail all passed\n");
+
   return true;
 }
 
 bool test_is_head() {
   // TODO: Implement this function.
+  char testcase_1 = 'W';
+  bool output_1 = is_head(testcase_1);
+  if (!assert_true("output_1", output_1)) {
+    return false;
+  }
+
+  char testcase_2 = 'A';
+  bool output_2 = is_head(testcase_2);
+  if (!assert_true("output_2", output_2)) {
+    return false;
+  }
+
+  char testcase_3 = 'S';
+  bool output_3 = is_head(testcase_3);
+  if (!assert_true("output_3", output_3)) {
+    return false;
+  }
+
+  char testcase_4 = 'D';
+  bool output_4 = is_head(testcase_4);
+  if (!assert_true("output_4", output_4)) {
+    return false;
+  }
+
+  char testcase_5 = 'l';
+  bool output_5 = is_head(testcase_5);
+  if (!assert_false("output_5", output_5)) {
+    return false;
+  }
+
+  char testcase_6 = '?';
+  bool output_6 = is_head(testcase_6);
+  if (!assert_false("output_6", output_6)) {
+    return false;
+  }
+
+  char testcase_7 = '1';
+  bool output_7 = is_head(testcase_7);
+  if (!assert_false("output_7", output_7)) {
+    return false;
+  }
+
+  printf("test_is_head all passed\n");
+
   return true;
 }
 
 bool test_is_snake() {
   // TODO: Implement this function.
+  const char snake_chars[] = "wasd^<v>WASDx";
+  for (int i = 0; snake_chars[i] != '\0'; i++) {
+    char test_case = snake_chars[i];
+    bool output1 = is_snake(test_case);
+    if (!assert_true("output1", output1)) {
+      return false;
+    }
+  }
+
+  const char not_snake_chars[] = "123?-=+lkj";
+  for (int i = 0; not_snake_chars[i] != '\0'; i++) {
+    char test_case_2 = not_snake_chars[i];
+    bool output2 = is_snake(test_case_2);
+    if (!assert_false("output2", output2)) {
+      return false;
+    }
+  }
+
+  printf("test_is_snake all passed\n");
+
   return true;
 }
 
 bool test_body_to_tail() {
   // TODO: Implement this function.
+  const char body[] = "^<v>";
+  const char tail[] = "wasd";
+  for (int i = 0; body[i] != '\0'; i++) {
+    char test_case = body[i];
+    char output = body_to_tail(test_case);
+    if (!assert_equals_char("output", tail[i], output)) {
+      return false;
+    }
+  }
+
+  const char not_body[] = "123wasdWASD-=;";
+  const char not_tail = '?';
+  for (int i = 0; not_body[i] != '\0'; i++) {
+    char test_case_2 = not_body[i];
+    char output2 = body_to_tail(test_case_2);
+    if (!assert_equals_char("output2", not_tail, output2)) {
+      return false;
+    }
+  }
+
+  printf("test_body_to_tail all passed\n");
+
   return true;
 }
 
 bool test_head_to_body() {
   // TODO: Implement this function.
+  const char body[] = "^<v>";
+  const char head[] = "WASD";
+  for (int i = 0; body[i] != '\0'; i++) {
+    char test_case = head[i];
+    char output = head_to_body(test_case);
+    if (!assert_equals_char("output", body[i], output)) {
+      return false;
+    }
+  }
+
+  // Test cases for invalid inputs
+  const char not_head[] = "123wasd-=;";
+  const char not_body = '?';
+  for (int i = 0; not_head[i] != '\0'; i++) {
+    char test_case_2 = not_head[i];
+    char output2 = head_to_body(test_case_2);
+    if (!assert_equals_char("output2", not_body, output2)) {
+      return false;
+    }
+  }
+
+  printf("test_head_to_body all passed\n");
+
   return true;
 }
 
 bool test_get_next_row() {
   // TODO: Implement this function.
+  unsigned int current_row = 10;
+
+  // 测试 'v', 's', 'S'
+  if (!assert_equals_unsigned_int("get_next_row('v')", current_row + 1, get_next_row(current_row, 'v'))) {
+    return false;
+  }
+  if (!assert_equals_unsigned_int("get_next_row('s')", current_row + 1, get_next_row(current_row, 's'))) {
+    return false;
+  }
+  if (!assert_equals_unsigned_int("get_next_row('S')", current_row + 1, get_next_row(current_row, 'S'))) {
+    return false;
+  }
+
+  // 测试 '^', 'w', 'W'
+  if (!assert_equals_unsigned_int("get_next_row('^')", current_row - 1, get_next_row(current_row, '^'))) {
+    return false;
+  }
+  if (!assert_equals_unsigned_int("get_next_row('w')", current_row - 1, get_next_row(current_row, 'w'))) {
+    return false;
+  }
+  if (!assert_equals_unsigned_int("get_next_row('W')", current_row - 1, get_next_row(current_row, 'W'))) {
+    return false;
+  }
+
+  // 测试其他字符
+  if (!assert_equals_unsigned_int("get_next_row('x')", current_row, get_next_row(current_row, 'x'))) {
+    return false;
+  }
+
+  printf("test_get_next_row all passed\n");
+
   return true;
 }
 
 bool test_get_next_col() {
   // TODO: Implement this function.
+   unsigned int current_column = 20;
+
+  // 测试 '>', 'd', 'D'
+  if (!assert_equals_unsigned_int("get_next_col('>')", current_column + 1, get_next_col(current_column, '>'))) {
+    return false;
+  }
+  if (!assert_equals_unsigned_int("get_next_col('d')", current_column + 1, get_next_col(current_column, 'd'))) {
+    return false;
+  }
+  if (!assert_equals_unsigned_int("get_next_col('D')", current_column + 1, get_next_col(current_column, 'D'))) {
+    return false;
+  }
+
+  // 测试 '<', 'a', 'A'
+  if (!assert_equals_unsigned_int("get_next_col('<')", current_column - 1, get_next_col(current_column, '<'))) {
+    return false;
+  }
+  if (!assert_equals_unsigned_int("get_next_col('a')", current_column - 1, get_next_col(current_column, 'a'))) {
+    return false;
+  }
+  if (!assert_equals_unsigned_int("get_next_col('A')", current_column - 1, get_next_col(current_column, 'A'))) {
+    return false;
+  }
+
+  // 测试其他字符
+  if (!assert_equals_unsigned_int("get_next_col('z')", current_column, get_next_col(current_column, 'z'))) {
+    return false;
+  }
+
+printf("test_get_next_col all passed\n");
+
   return true;
 }
 

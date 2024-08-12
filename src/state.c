@@ -8,7 +8,8 @@
 #include "snake_utils.h"
 
 /* Helper function definitions */
-static void set_board_at(game_state_t *state, unsigned int row, unsigned int col, char ch);
+static void set_board_at(game_state_t *state, unsigned int row,
+                         unsigned int col, char ch);
 static bool is_tail(char c);
 static bool is_head(char c);
 static bool is_snake(char c);
@@ -51,7 +52,7 @@ game_state_t *create_default_state() {
   game->board[2][2] = 'd';
   game->board[2][3] = '>';
   game->board[2][9] = '*';
- 
+
   return game;
 }
 
@@ -59,7 +60,7 @@ game_state_t *create_default_state() {
 void free_state(game_state_t *state) {
   // TODO: Implement this function.
   free(state->snakes);
-  for(int i = 0; i < state->num_rows; i++) {
+  for (int i = 0; i < state->num_rows; i++) {
     free(state->board[i]);
   }
   free(state->board);
@@ -71,7 +72,7 @@ void free_state(game_state_t *state) {
 void print_board(game_state_t *state, FILE *fp) {
   // TODO: Implement this function.
   for (int i = 0; i < state->num_rows; i++) {
-  fprintf(fp, "%s\n",state->board[i]);
+    fprintf(fp, "%s\n", state->board[i]);
   }
   return;
 }
@@ -92,13 +93,16 @@ void save_board(game_state_t *state, char *filename) {
   Helper function to get a character from the board
   (already implemented for you).
 */
-char get_board_at(game_state_t *state, unsigned int row, unsigned int col) { return state->board[row][col]; }
+char get_board_at(game_state_t *state, unsigned int row, unsigned int col) {
+  return state->board[row][col];
+}
 
 /*
   Helper function to set a character on the board
   (already implemented for you).
 */
-static void set_board_at(game_state_t *state, unsigned int row, unsigned int col, char ch) {
+static void set_board_at(game_state_t *state, unsigned int row,
+                         unsigned int col, char ch) {
   state->board[row][col] = ch;
 }
 
@@ -109,6 +113,9 @@ static void set_board_at(game_state_t *state, unsigned int row, unsigned int col
 */
 static bool is_tail(char c) {
   // TODO: Implement this function.
+  if (c != 'w' && c != 'a' && c != 's' && c != 'd') {
+    return false;
+  }
   return true;
 }
 
@@ -119,6 +126,9 @@ static bool is_tail(char c) {
 */
 static bool is_head(char c) {
   // TODO: Implement this function.
+  if (c != 'W' && c != 'A' && c != 'S' && c != 'D') {
+    return false;
+  }
   return true;
 }
 
@@ -128,7 +138,15 @@ static bool is_head(char c) {
 */
 static bool is_snake(char c) {
   // TODO: Implement this function.
-  return true;
+  const char snake_chars[] = "wasd^<v>WASDx";
+
+  // Loop through the list of snake characters
+  for (int i = 0; snake_chars[i] != '\0'; i++) {
+    if (c == snake_chars[i]) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /*
@@ -138,6 +156,16 @@ static bool is_snake(char c) {
 */
 static char body_to_tail(char c) {
   // TODO: Implement this function.
+  switch (c) {
+    case '^' : return 'w';
+    break;
+    case '<' : return 'a';
+    break;
+    case 'v' : return 's';
+    break;
+    case '>' : return 'd';
+    break;
+  }
   return '?';
 }
 
@@ -148,6 +176,16 @@ static char body_to_tail(char c) {
 */
 static char head_to_body(char c) {
   // TODO: Implement this function.
+  switch (c) {
+    case 'W' : return '^';
+    break;
+    case 'A' : return '<';
+    break;
+    case 'S' : return 'v';
+    break;
+    case 'D' : return '>';
+    break;
+  }
   return '?';
 }
 
@@ -158,6 +196,16 @@ static char head_to_body(char c) {
 */
 static unsigned int get_next_row(unsigned int cur_row, char c) {
   // TODO: Implement this function.
+  switch (c) {
+    case 'v':
+    case 's':
+    case 'S':
+      return cur_row + 1;
+    case '^':
+    case 'w':
+    case 'W':
+      return cur_row - 1;
+  }
   return cur_row;
 }
 
@@ -168,13 +216,19 @@ static unsigned int get_next_row(unsigned int cur_row, char c) {
 */
 static unsigned int get_next_col(unsigned int cur_col, char c) {
   // TODO: Implement this function.
+   if (c == '>' || c == 'd' || c == 'D') {
+    return cur_col + 1;
+  } else if (c == '<' || c == 'a' || c == 'A') {
+    return cur_col - 1;
+  }
   return cur_col;
 }
 
 /*
   Task 4.2
 
-  Helper function for update_state. Return the character in the cell the snake is moving into.
+  Helper function for update_state. Return the character in the cell the snake
+  is moving into.
 
   This function should not modify anything.
 */
@@ -192,7 +246,8 @@ static char next_square(game_state_t *state, unsigned int snum) {
 
   ...in the snake struct: update the row and col of the head
 
-  Note that this function ignores food, walls, and snake bodies when moving the head.
+  Note that this function ignores food, walls, and snake bodies when moving the
+  head.
 */
 static void update_head(game_state_t *state, unsigned int snum) {
   // TODO: Implement this function.
