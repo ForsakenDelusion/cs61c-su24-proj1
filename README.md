@@ -218,3 +218,7 @@ void print_board(game_state_t *state, FILE *fp) {
 ```
 
 实际上有一个大错误！就是我在初始化的时候每一行结尾并没有\n换行符，但是我打印的时候加上了这个换行符，因为前面几个问题都是加载我自己写的初始化board，所以后面才看起来正常。但是一旦做了task5.2这个问题就会暴露出来，因为加载的是它提供给我的board，是有`\n`的board！
+
+## 由于buffer设置太小导致test11过不了
+
+所以要动态更新buffersize
